@@ -137,7 +137,7 @@ feedbackForm.addEventListener('submit', e => {
 
         phoneInput.parentNode.insertBefore(phoneErrorText, phoneInput.nextSibling);
     } else {
-        feedbackForm.submit();
         phoneErrorText.style.display = 'none';
+        feedbackForm.submit();
     }
 });
