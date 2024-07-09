@@ -87,5 +87,40 @@ fetch(url, {
         showMoviesList(data);
     })
     .catch(error => {
+        console.error(error);
         showNoMovies();
     });
+
+
+const formatPhoneNumber = function(phoneNumber) {
+    const phoneNumberLength = phoneNumber.length;
+
+    if (phoneNumberLength < 4) {
+        return '+7 (' + phoneNumber;
+    }
+
+    if (phoneNumberLength < 7) {
+        return '+7 (' + phoneNumber.substring(1, 4) + ') ' + phoneNumber.substring(4);
+    }
+
+    if (phoneNumberLength < 10) {
+        return '+7 (' + phoneNumber.substring(1, 4) + ') ' + phoneNumber.substring(4, 7) + '-' + phoneNumber.substring(7);
+    }
+
+    return '+7 (' + phoneNumber.substring(1, 4) + ') ' + phoneNumber.substring(4, 7) + '-' + phoneNumber.substring(7, 9) + '-' + phoneNumber.substring(9, 12);
+}
+
+const phoneInput = document.querySelector('.tel');
+
+if(phoneInput) {
+    phoneInput.addEventListener('input', e => {
+        const inputValue = e.target.value.replace(/\D/g, '');
+        const formattedValue = formatPhoneNumber(inputValue);
+    
+        e.target.value = formattedValue;
+    
+        if (inputValue.length >= 12) {
+            e.target.value = e.target.value.slice(0, -1);
+        }
+    });
+}

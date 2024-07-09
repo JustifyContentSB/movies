@@ -165,3 +165,37 @@ body {
                 transform: rotate(360deg);
     }
 }
+
+/* FORM */
+
+.feedback__form {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.form__label {
+    margin-bottom: 10px;
+    display: block;
+}
+
+.form__element {
+    padding: 10px 16px;
+    border-radius: 12px;
+    width: 100%;
+    outline: none;
+    border: none;
+}
+
+.form__label input {
+    padding: 10px 16px;
+    border-radius: 12px;
+}
+
+.form__send {
+    padding: 10px 30px;
+    display: block;
+    background: red;
+    color: #fff;
+    cursor: pointer;
+}
