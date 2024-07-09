@@ -199,3 +199,9 @@ body {
     color: #fff;
     cursor: pointer;
 }
+
+.form__error {
+    display: inline-block;
+    font-size: 12px;
+    margin-top: 8px;
+}

@@ -124,3 +124,20 @@ if(phoneInput) {
         }
     });
 }
+
+const feedbackForm = document.querySelector('.form');
+
+feedbackForm.addEventListener('submit', e => {
+    const phoneErrorText = document.createElement('span');
+    phoneErrorText.classList.add('form__error');
+    phoneErrorText.textContent = 'Введите корректный номер телефона';
+
+    if (phoneInput.value.length !== 18) {
+        e.preventDefault();
+
+        phoneInput.parentNode.insertBefore(phoneErrorText, phoneInput.nextSibling);
+    } else {
+        feedbackForm.submit();
+        phoneErrorText.style.display = 'none';
+    }
+});
