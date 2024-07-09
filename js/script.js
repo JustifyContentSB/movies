@@ -33,7 +33,7 @@ const showMoviesList = function(movies) {
     moviesList.className = 'movies__list';
     moviesContent.appendChild(moviesList);
     
-    const noPoster = '../images/no-poster.jpg';
+    const noPoster = 'images/no-poster.jpg';
     const noName = 'Название фильма отсутствует';
 
     if(movies.docs) {
@@ -74,7 +74,7 @@ const showMoviesList = function(movies) {
 }
 
 const url = 'https://api.kinopoisk.dev/v1.4/movie?rating.imdb=8-10';
-const apiKey = 'P3RTS9G-2YH4XAV-QWKVWAZ-E9XFFDQ';
+const apiKey = 'DB406NV-G26MB2F-N12KM5M-V3NSBKH';
 
 fetch(url, {
     method: 'GET',
