@@ -74,7 +74,7 @@ const showMoviesList = function(movies) {
 }
 
 const url = 'https://api.kinopoisk.dev/v1.4/movie?rating.imdb=8-10';
-const apiKey = 'DB406NV-G26MB2F-N12KM5M-V3NSBKH';
+const apiKey = '69BZKAD-JDNM3W1-MWHPNTA-D9K458R';
 
 fetch(url, {
     method: 'GET',
@@ -82,62 +82,80 @@ fetch(url, {
         'X-API-KEY': apiKey
     }
 })
-    .then(response => response.json())
-    .then(data => {
-        showMoviesList(data);
-    })
-    .catch(error => {
-        console.error(error);
-        showNoMovies();
-    });
+.then((response) => {
+    return response.json();
+})
+.then((data) => {
+    showMoviesList(data);
+})
+.catch((error) => {
+    console.error(error);
+    showNoMovies();
+});
 
 
 const formatPhoneNumber = function(phoneNumber) {
+    if (phoneNumber.startsWith('+7')) {
+        phoneNumber = phoneNumber.slice(2);
+    } else if (phoneNumber.startsWith('7') || phoneNumber.startsWith('8')) {
+        phoneNumber = phoneNumber.slice(1);
+    }
+
     const phoneNumberLength = phoneNumber.length;
 
-    if (phoneNumberLength < 4) {
+    if (phoneNumberLength < 3) {
         return '+7 (' + phoneNumber;
     }
 
-    if (phoneNumberLength < 7) {
-        return '+7 (' + phoneNumber.substring(1, 4) + ') ' + phoneNumber.substring(4);
+    if (phoneNumberLength < 6) {
+        return '+7 (' + phoneNumber.substring(0, 3) + ') ' + phoneNumber.substring(3);
     }
 
-    if (phoneNumberLength < 10) {
-        return '+7 (' + phoneNumber.substring(1, 4) + ') ' + phoneNumber.substring(4, 7) + '-' + phoneNumber.substring(7);
+    if (phoneNumberLength < 9) {
+        return '+7 (' + phoneNumber.substring(0, 3) + ') ' + phoneNumber.substring(3, 6) + '-' + phoneNumber.substring(6);
     }
 
-    return '+7 (' + phoneNumber.substring(1, 4) + ') ' + phoneNumber.substring(4, 7) + '-' + phoneNumber.substring(7, 9) + '-' + phoneNumber.substring(9, 12);
+    return '+7 (' + phoneNumber.substring(0, 3) + ') ' + phoneNumber.substring(3, 6) + '-' + phoneNumber.substring(6, 8) + '-' + phoneNumber.substring(8);
 }
 
 const phoneInput = document.querySelector('.tel');
+let isDeleting = false;
 
 if(phoneInput) {
     phoneInput.addEventListener('input', e => {
         const inputValue = e.target.value.replace(/\D/g, '');
-        const formattedValue = formatPhoneNumber(inputValue);
-    
-        e.target.value = formattedValue;
-    
-        if (inputValue.length >= 12) {
-            e.target.value = e.target.value.slice(0, -1);
+        if (e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward') {
+            isDeleting = true;
+        } else {
+            isDeleting = false;
+            const formattedValue = formatPhoneNumber(inputValue);
+            e.target.value = formattedValue;
+        
+            if (inputValue.length >= 12) {
+                e.target.value = e.target.value.slice(0, -1);
+            }
         }
     });
 }
 
 const feedbackForm = document.querySelector('.form');
 
-feedbackForm.addEventListener('submit', e => {
+feedbackForm.addEventListener('submit', function(e) {
     const phoneErrorText = document.createElement('span');
     phoneErrorText.classList.add('form__error');
     phoneErrorText.textContent = 'Введите корректный номер телефона';
 
     if (phoneInput.value.length !== 18) {
         e.preventDefault();
+        
+        const formError = this.querySelector('.form__error');
 
-        phoneInput.parentNode.insertBefore(phoneErrorText, phoneInput.nextSibling);
+        if(!formError) {
+            phoneInput.parentNode.insertBefore(phoneErrorText, phoneInput.nextSibling);
+        }
+
     } else {
         phoneErrorText.style.display = 'none';
-        feedbackForm.submit();
+        this.submit();
     }
 });
